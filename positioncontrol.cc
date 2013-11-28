@@ -92,7 +92,7 @@ void park() {
 	// then deparks by reversing until line follow is all 'YO A LINE'
 	int nextturn = 0;
 	while (DISTANCE_SENSOR < VALUE) {
-		follow();
+		follow(); //OR SOME VARIANT THEREOF. Proportional control advisable.
 		delay(10);
 	}
 	if (samstate.location == 2) {
