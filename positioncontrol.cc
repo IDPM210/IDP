@@ -3,56 +3,56 @@ void action() { //Takes current location & parcels, decides next route to take
 	switch(samstate.location) {
 		case 1: //START
 		if (samstate.Delivered < 4) { //To conveyor
-			int route[] = {1, 0, 0, 0, -1, 1};
+			int route[] = {1, 0, 0, 0, -1, 1, 5, 5};
 			samstate.location = 2;
 		}
 		else { //END case
-			int route[] = {};
+			int route[] = {5, 5, 5, 5, 5, 5, 5, 5};
 			samstate.location = 5;
 		}
 		break;
 		
 		case 2: //CONVEYOR
 		if ((samstate.Parcel1 == 0) && (samstate.Parcel2 == 0)) { //If no parcels, park
-			int route[] = {};
+			int route[] = {5, 5, 5, 5, 5, 5, 5, 5};
 			samstate.location = 2;
 		}
 		else if (samstate.Parcel1 == 1) || (samstate.Parcel1 == 2) || (samstate.Parcel2 == 1) || (samstate.Parcel2 == 2) { //A or B to SL1
-			int route[] = {-1, 1};
+			int route[] = {-1, 1, 5, 5, 5, 5, 5, 5};
 			samstate.location = 3;
 		}
 		else if (samstate.Parcel1 == 3) || (samstate.Parcel2 == 3) { //C to SL3
-			int route[] = {-1, 0, 1};
+			int route[] = {-1, 0, 1, 5, 5, 5, 5, 5};
 			samstate.location = 4;
 		}
 		break;
 		
 		case 3: //SLEIGH 1
 		if (samstate.Parcel1 == 0) && (samstate.Parcel2 == 0) && (samstate.Delivered < 4) { //If no parcels, to conveyor
-			int route[] = {1, -1};
+			int route[] = {1, -1, 5, 5, 5, 5, 5, 5};
 			samstate.location = 2;
 		}
 		else if (samstate.Delivered >= 4) { //Return to start if 4 or more delivered
-			int route[] = {-1, 0, 0, -1};
+			int route[] = {-1, 0, 0, -1, 5, 5, 5, 5};
 			samstate.location = 1;
 		}
 		else if (samstate.Parcel1 == 3) || (samstate.Parcel2 == 3) { //C to SL3
-			int route[] = {-1, 1};
+			int route[] = {-1, 1, 5, 5, 5, 5, 5, 5};
 			samstate.location = 4;
 		}
 		break;
 		
 		case 4: //SLEIGH 2
 		if (samstate.Parcel1 == 0) && (samstate.Parcel2 == 0) && (samstate.Delivered < 4) { //If no parels, to conveyor
-			int route[] = {1, -1};
+			int route[] = {1, -1, 5, 5, 5, 5, 5, 5};
 			samstate.location = 2;
 		}
 		else if (samstate.Delivered >= 4) { //Return to start if 4 or more delivered
-			int route[] = {-1, 0, -1};
+			int route[] = {-1, 0, -1, 5, 5, 5, 5, 5};
 			samstate.location = 1;
 		}
 		else if (samstate.Parcel1 == 1) || (samstate.Parcel1 == 2) || (samstate.Parcel2 == 1) || (samstate.Parcel2 == 2) { //A or B to SL1
-			int route[] = {-1, 1};
+			int route[] = {-1, 1, 5, 5, 5, 5, 5, 5};
 			samstate.location = 3;
 		}
 		break;
@@ -60,8 +60,8 @@ void action() { //Takes current location & parcels, decides next route to take
 		case 5: //END
 		break;
 	}
-	for(int i=0; i<10; i++) {
-		if route[i] >= -1 || route[i] <= 1 { //hopefully it doesn't just break if route[i] doesn't exist
+	for(int i=0; i<8; i++) {
+		if (route[i] >= -1) && (route[i] <= 1) {
 			samstate.location[i] = route[i];
 		}
 		else {
@@ -105,10 +105,12 @@ void park() {
 
 void pickup() {
 	// signal parcel with LED
+	LED();
 	// scan barcode of first
 	// identify and store as parcel1
 	// scan barcode of second
 	// identify and store as parcel2
+	scan();
 	// sweep in parcel2
 	// sweep in parcel1
 }
